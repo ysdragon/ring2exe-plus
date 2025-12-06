@@ -1,7 +1,7 @@
 aPackageInfo = [
 	:name = "The Ring2EXE Plus Package",
 	:description = "Our Ring2EXE Plus package using the Ring programming language",
-	:folder = "ring2exe",
+	:folder = "ring2exe-plus",
 	:developer = "Mahmoud Fayed, Youssef Saeed",
 	:email = "msfclipper@yahoo.com, youssefelkholey@gmail.com",
 	:license = "MIT License",
