@@ -26,6 +26,7 @@ aPackageInfo = [
 		]
 	],
 	:files = 	[
+		"install.ring",
 		"main.ring",
 		"README.md"
 	],
@@ -52,19 +53,22 @@ aPackageInfo = [
 
 	],
 	:windowsringfolderfiles = 	[
-		"bin/ring2exe.exe"
+		"bin/ring2exe.exe",
+		"bin/ring2exe-x86.exe"
 	],
 	:linuxringfolderfiles = 	[
-		"bin/ring2exe"
+		"bin/ring2exe",
+		"bin/ring2exe-linux-arm64"
 	],
 	:macosringfolderfiles = 	[
-		# "bin/ring2exe"
+		"bin/ring2exe-macos-arm",
+		"bin/ring2exe-macos-intel"
 	],
 	:freebsdfolderfiles =		[
 		# "bin/ring2exe"
 	],
 	:run = "ring main.ring",
-	:setup = "",
+	:setup = "ring install.ring",
 	:windowssetup = "",
 	:linuxsetup = "",
 	:macossetup = "",
