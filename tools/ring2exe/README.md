@@ -5,7 +5,7 @@ Convert Ring project source code to executable files for Windows, Linux, macOS, 
 ## Installation
 
 ```
-ringpm install ring2exeplus from ysdragon
+ringpm install ring2exe-plus from ysdragon
 ```
 
 ## Usage
