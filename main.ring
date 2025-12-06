@@ -6,7 +6,7 @@
 **	Date	    : 2025
 */
 
-load "/../tools/ring2exe-plus/utils/clicolors.ring"
+load "/../tools/ring2exe/utils/clicolors.ring"
 
 func main
 	see nl
