@@ -520,13 +520,19 @@ func ClearTempFiles nPara
 					loop
 				ok
 			ok
-			
-			# Remove .ringo files only if nPara = 1 (not for distribution)
-			if nPara = 1 and right(cFileName, 6) = ".ringo"
-				remove(cFileName)
-			ok
 		ok
 	next
+
+	if nPara = 1
+		for aFile in aFiles
+			if aFile[2] = 0
+				cFileName = aFile[1]
+				if right(cFileName, 6) = ".ringo"
+					remove(cFileName)
+				ok
+			ok
+		next
+	ok
 
 
 func Distribute cFileName,aOptions
@@ -989,7 +995,7 @@ func DistributeForMacOSX cBaseFolder,cFileName,aOptions
 	cInstallLibs   = ""
 	# Check ring.dylib
 		if not find(aOptions,"-static")
-			msg("Copy libring.dylib to target/macosx/dist_using_scripts/usr/local/lib")
+			msg("Copy libring.dylib to target/macosx/dist_using_scripts/lib")
 			OSCopyFile(exefolder()+"/../lib/libring.dylib")
 		ok
 		cInstallLibs = InstallLibMacOSX(cInstallLibs,"libring.dylib")
@@ -1594,10 +1600,12 @@ func CreateAppBundle cAppName, aOptions
 	
 	# Create Contents directory and subdirectories
 	OSCreateOpenFolder("Contents")
-	chdir(cAppPath + "/Contents")
 	cContentsPath = currentdir()
+
 	OSCreateOpenFolder("MacOS")
+	chdir(cContentsPath)
 	OSCreateOpenFolder("Resources")
+	chdir(cContentsPath)
 	OSCreateOpenFolder("Frameworks")
 	
 	# Copy executable to MacOS directory
@@ -1756,6 +1764,7 @@ EOF
 	write("create_icon.sh", cIconSetScript)
 	systemSilent("chmod +x create_icon.sh")
 	systemSilent("./create_icon.sh")
+	remove("create_icon.sh")
 	
 	# Set executable permissions
 	chdir(cContentsPath + "/MacOS")
