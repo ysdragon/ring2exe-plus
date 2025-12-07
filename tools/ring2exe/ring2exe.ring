@@ -144,19 +144,18 @@ func Main
 	ok
 
 func PrintHelp
-	see nl
 	DrawLine()
 	# Title
-	see C_BOLD() + C_BCYAN() + "  Ring2EXE Plus" + C_RESET() 
-	see C_DIM() + " v" + VERSION + " - Convert Ring Application To Executable File" + C_RESET() + nl
+	see C_BOLD + C_BCYAN + "  Ring2EXE Plus" + C_RESET 
+	? C_DIM + " v" + VERSION + " - Convert Ring Application To Executable File" + C_RESET
 	see nl
 	# Credits
-	see C_DIM() + "  Original: " + C_RESET() + "Mahmoud Fayed <msfclipper@yahoo.com> (2017-2025)" + nl
-	see C_DIM() + "  Fork by:  " + C_RESET() + C_BGREEN() + "Youssef Saeed" + C_RESET() + " <youssefelkholey@gmail.com> (2025)" + nl
+	? C_DIM + "  Original: " + C_RESET + "Mahmoud Fayed <msfclipper@yahoo.com> (2017-2025)"
+	?  C_DIM + "  Fork by:  " + C_RESET + C_BGREEN + "Youssef Saeed" + C_RESET + " <youssefelkholey@gmail.com> (2025)"
 	see nl
 	# Usage
-	see C_BOLD() + C_WHITE() + "  Usage: " + C_RESET() 
-	see C_YELLOW() + "ring2exe " + C_CYAN() + "filename.ring " + C_DIM() + "[options]" + C_RESET() + nl
+	see C_BOLD + C_WHITE + "  Usage: " + C_RESET 
+	? C_YELLOW + "ring2exe " + C_CYAN + "filename.ring " + C_DIM + "[options]" + C_RESET
 	DrawLine()
 	see nl
 
@@ -179,19 +178,19 @@ func PrintHelp
 	see nl
 
 	# Package Formats
-	PrintSection("Package Formats " + C_DIM() + "(with -dist)" + C_RESET())
-	PrintOption("-scripts", "Install scripts " + C_DIM() + "(default)" + C_RESET())
-	PrintOption("-deb", "Debian package " + C_BBLUE() + "[Linux]" + C_RESET())
-	PrintOption("-rpm", "RPM package " + C_BRED() + "[Linux]" + C_RESET())
-	PrintOption("-appimage", "AppImage " + C_BMAGENTA() + "[Linux]" + C_RESET())
-	PrintOption("-appbundle", "App Bundle " + C_WHITE() + "[macOS]" + C_RESET())
-	PrintOption("-pkg", "pkg package " + C_BRED() + "[FreeBSD]" + C_RESET())
+	PrintSection("Package Formats " + C_DIM + "(with -dist)" + C_RESET)
+	PrintOption("-scripts", "Install scripts " + C_DIM + "(default)" + C_RESET)
+	PrintOption("-deb", "Debian package " + C_BBLUE + "[Linux]" + C_RESET)
+	PrintOption("-rpm", "RPM package " + C_BRED + "[Linux]" + C_RESET)
+	PrintOption("-appimage", "AppImage " + C_BMAGENTA + "[Linux]" + C_RESET)
+	PrintOption("-appbundle", "App Bundle " + C_WHITE + "[macOS]" + C_RESET)
+	PrintOption("-pkg", "pkg package " + C_BRED + "[FreeBSD]" + C_RESET)
 	see nl
 
 	# Library Flags
 	PrintSection("Library Flags")
-	PrintOption("-<lib>", "Include library (e.g., " + C_GREEN() + "-qt" + C_RESET() + ")")
-	PrintOption("-no<lib>", "Exclude library (e.g., " + C_RED() + "-noqt" + C_RESET() + ")")
+	PrintOption("-<lib>", "Include library (e.g., " + C_GREEN + "-qt" + C_RESET + ")")
+	PrintOption("-no<lib>", "Exclude library (e.g., " + C_RED + "-noqt" + C_RESET + ")")
 	see nl
 
 	DrawLine()

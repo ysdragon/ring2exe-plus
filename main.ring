@@ -9,24 +9,23 @@
 load "/../tools/ring2exe/utils/clicolors.ring"
 
 func main
-	see nl
 	DrawLine()
 	# Title
-	see C_BOLD() + C_BCYAN() + "  Ring2EXE Plus" + C_RESET() 
-	see C_DIM() + " - Package Information" + C_RESET() + nl
+	see C_BOLD + C_BCYAN + "  Ring2EXE Plus" + C_RESET 
+	? C_DIM + " - Package Information" + C_RESET
 	see nl
 	# Credits
-	see C_DIM() + "  Original: " + C_RESET() + "Mahmoud Fayed <msfclipper@yahoo.com> (2017-2025)" + nl
-	see C_DIM() + "  Fork by:  " + C_RESET() + C_BGREEN() + "Youssef Saeed" + C_RESET() + " <youssefelkholey@gmail.com> (2025)" + nl
+	? C_DIM + "  Original: " + C_RESET + "Mahmoud Fayed <msfclipper@yahoo.com> (2017-2025)"
+	? C_DIM + "  Fork by:  " + C_RESET + C_BGREEN + "Youssef Saeed" + C_RESET + " <youssefelkholey@gmail.com> (2025)"
 	see nl
 	DrawLine()
 	see nl
 
 	# Description
 	PrintSection("About")
-	see "    " + C_DIM() + "Ring2EXE Plus is a fork of the Ring2EXE tool for the Ring" + C_RESET() + nl
-	see "    " + C_DIM() + "programming language. It converts Ring source code to native" + C_RESET() + nl
-	see "    " + C_DIM() + "executables for Windows, Linux, macOS & FreeBSD." + C_RESET() + nl
+	? "    " + C_DIM + "Ring2EXE Plus is a fork of the Ring2EXE tool for the Ring" + C_RESET
+	? "    " + C_DIM + "programming language. It converts Ring source code to native" + C_RESET
+	? "    " + C_DIM + "executables for Windows, Linux, macOS & FreeBSD." + C_RESET
 	see nl
 
 	# Quick Start
@@ -38,8 +37,8 @@ func main
 
 	# Location
 	PrintSection("Location")
-	see "    " + C_DIM() + "Tool location: " + C_RESET() + C_CYAN() + "ring/tools/ring2exe" + C_RESET() + nl
-	see "    " + C_DIM() + "Run command:  " + C_RESET() + C_YELLOW() + "ring2exe" + C_RESET() + nl
+	? "    " + C_DIM + "Tool location: " + C_RESET + C_CYAN + "ring/tools/ring2exe" + C_RESET
+	? "    " + C_DIM + "Run command:  " + C_RESET + C_YELLOW + "ring2exe" + C_RESET
 	see nl
 
 	DrawLine()
