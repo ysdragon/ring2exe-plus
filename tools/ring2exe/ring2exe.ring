@@ -95,7 +95,7 @@ func LoadLibrariesInfo
 	for cLibFile in aLibsFiles 
 		cLibFileContent = read(cLibFile)
 		if ! checkRingCode([:code = cLibFileContent])
-			? "The file " + cLibFile + " doesn't pass the security check!"
+			PrintError("The file " + cLibFile + " doesn't pass the security check!")
 			loop
 		ok
 		eval(cLibFileContent)
@@ -388,6 +388,12 @@ func GenerateBatchGeneral aPara,aOptions,cCompiler,cCompilerFlags,cOutputFileNam
 			ok
 		else
 			# GCC/Clang/TCC syntax
+
+			# Check if compiler is available
+			if trim(SystemCmd("where " + cComp + " 2>nul")) = ""
+				PrintError("Compiler " + cComp + " not found in system PATH!")
+				bye
+			ok
 			cFlags = "-O2"
 			if cCompilerFlags != NULL
 				cFlags = cCompilerFlags
