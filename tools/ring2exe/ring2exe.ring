@@ -81,7 +81,7 @@
 
 load "stdlibcore.ring"
 load "tokenslib.ring"
-load "/../tools/ring2exe/utils/cli.ring"
+load "utils/cli.ring"
 
 # Ring2EXE Plus Version
 VERSION = "1.1.3"
