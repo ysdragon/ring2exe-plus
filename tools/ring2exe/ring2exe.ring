@@ -448,7 +448,7 @@ func GenerateBatchGeneral aPara,aOptions,cCompiler,cCompilerFlags,cOutputFileNam
 		cCode = substr(cCode,"#{f5}",cLinkFlags)
 		cCode = substr(cCode,"#{f6}",exefolder())
 		cCode = substr(cCode,"#{f7}",cOutput + ".exe")
-		cWindowsBatch = cFile+"_build_"+cComp+".bat"
+		cWindowsBatch = cFile+"_build_"+JustFileName(cComp)+".bat"
 		write(cWindowsBatch,cCode)
 	# Generate Linux Script (GNU C/C++)
 	but isLinux()
@@ -466,7 +466,7 @@ func GenerateBatchGeneral aPara,aOptions,cCompiler,cCompilerFlags,cOutputFileNam
 		cCode = substr(cCode,"#{f2}",aPara[:ringlib][:linux])
 		cCode = substr(cCode,"#{f3}",exefolder())
 		cCode = substr(cCode,"#{f4}",cOutput)
-		cLinuxBatch = cFile+"_build_"+cComp+".sh"
+		cLinuxBatch = cFile+"_build_"+JustFileName(cComp)+".sh"
 		write(cLinuxBatch,cCode)
 	# Generate macOS Script (CLang C/C++)
 	but isMacosx()
@@ -484,7 +484,7 @@ func GenerateBatchGeneral aPara,aOptions,cCompiler,cCompilerFlags,cOutputFileNam
 		cCode = substr(cCode,"#{f2}",aPara[:ringlib][:macosx])
 		cCode = substr(cCode,"#{f3}",exefolder())
 		cCode = substr(cCode,"#{f4}",cOutput)
-		cMacOSXBatch = cFile+"_build_"+cComp+".sh"
+		cMacOSXBatch = cFile+"_build_"+JustFileName(cComp)+".sh"
 		write(cMacOSXBatch,cCode)
 	# Generate FreeBSD Script (CLang C/C++)
 	but isFreeBSD()
@@ -502,7 +502,7 @@ func GenerateBatchGeneral aPara,aOptions,cCompiler,cCompilerFlags,cOutputFileNam
 		cCode = substr(cCode,"#{f2}",aPara[:ringlib][:freebsd])
 		cCode = substr(cCode,"#{f3}",exefolder())
 		cCode = substr(cCode,"#{f4}",cOutput)
-		cFreeBSDBatch = cFile+"_build_"+cComp+".sh"
+		cFreeBSDBatch = cFile+"_build_"+JustFileName(cComp)+".sh"
 		write(cFreeBSDBatch,cCode)
 	ok
 	# Return the script/batch file name
