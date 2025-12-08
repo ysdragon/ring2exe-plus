@@ -1525,6 +1525,12 @@ func CreateAppImage cAppName, aOptions
 		chdir(cAppDirPath)
 	ok
 	
+	# Copy ring.ringo if it exists (for fallback execution without C compiler)
+	if fexists(cLinuxDir + "/" + cScriptsPath + "/bin/ring.ringo")
+		OSCopyFile(cLinuxDir + "/" + cScriptsPath + "/bin/ring.ringo")
+		rename("ring.ringo", "usr/bin/ring.ringo")
+	ok
+	
 	# Copy libraries
 	chdir(cLinuxDir)
 	if direxists(cScriptsPath + "/lib")
@@ -1548,10 +1554,11 @@ func CreateAppImage cAppName, aOptions
 	# Create AppRun script
 	cAppRunScript = '#!/bin/bash' + nl +
 		'HERE="$(dirname "$(readlink -f "${0}")")"/usr' + nl +
+		'BIN=${HERE}/bin' + nl +
 		'export LD_LIBRARY_PATH="${HERE}/lib:${LD_LIBRARY_PATH}"' + nl +
 		'export PATH="${HERE}/bin:${PATH}"' + nl +
-		'cd "${HERE}"' + nl +
-		'exec "${HERE}/bin/' + cAppName + '" "$@"' + nl
+		'cd "${BIN}"' + nl +
+		'exec "${BIN}/' + cAppName + '" "$@"' + nl
 	write("AppRun", cAppRunScript)
 	systemSilent("chmod +x AppRun")
 	
@@ -1849,4 +1856,3 @@ func GetPackageArch cPackageType
 		return "unknown"
 	off
 	return "unknown"
-
