@@ -1,14 +1,14 @@
 name: Build Ring2EXE Plus
 
 on:
-  push:
-    branches: [ master, main ]
-    paths:
-      - 'tools/ring2exe/ring2exe.ring'
-      - 'tools/ring2exe/utils/**'
-      - '.github/workflows/build.yml'
-  pull_request:
-    branches: [ master, main ]
+  # push:
+  #   branches: [ master, main ]
+  #   paths:
+  #     - 'tools/ring2exe/ring2exe.ring'
+  #     - 'tools/ring2exe/utils/**'
+  #     - '.github/workflows/build.yml'
+  # pull_request:
+  #   branches: [ master, main ]
   workflow_dispatch:
 
 jobs:
