@@ -51,6 +51,7 @@ jobs:
           file: "tools/ring2exe/ring2exe.ring"
           ring_packages: tokenslib
           output_exe: "true"
+          cache: "false"
 
       - name: Upload macOS Intel artifact
         uses: actions/upload-artifact@v4
@@ -104,7 +105,7 @@ jobs:
   update-bin:
     runs-on: ubuntu-latest
     needs: [ linux, macos-intel, macos-arm, windows ]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    # if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
 
     permissions:
       contents: write
