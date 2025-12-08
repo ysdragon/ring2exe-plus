@@ -84,7 +84,7 @@ load "tokenslib.ring"
 load "utils/cli.ring"
 
 # Ring2EXE Plus Version
-VERSION = "1.1.3"
+VERSION = "1.1.5"
 
 # Load Libraries information
 	aLibsInfo = []
