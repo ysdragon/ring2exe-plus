@@ -1170,7 +1170,7 @@ func DistributeForLinux cBaseFolder,cFileName,aOptions
 			PrintSubStep("Copying libring.so to target/linux/lib")	
 			OSCopyFile(exefolder()+"/../lib/libring.so")
 		ok
-		cInstallLibs = InstallLibLinux(cInstallLibs,"libring.so")
+		cInstallLibs = InstallLib(cInstallLibs,"libring.so",["/usr/lib","/usr/lib64"])
 	# Check All Runtime 
 		if find(aOptions,"-allruntime")	
 			PrintSubStep("Copying all libraries to target/linux/lib")
@@ -1181,7 +1181,7 @@ func DistributeForLinux cBaseFolder,cFileName,aOptions
 						for cLibFile in aLibrary[:linuxfiles]
 							PrintSubStep("Copying file: "+cLibFile)
 							OSCopyFile(exefolder()+"/../lib/"+cLibFile)					
-							cInstallLibs = InstallLibLinux(cInstallLibs,cLibFile)
+							cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/lib","/usr/lib64"])
 						next
 					ok
 					cInstallUbuntu += (" " + aLibrary[:ubuntudep])
@@ -1201,7 +1201,7 @@ func DistributeForLinux cBaseFolder,cFileName,aOptions
 						for cLibFile in aLibrary[:linuxfiles]
 							PrintSubStep("Copying file: "+cLibFile)
 							OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-							cInstallLibs = InstallLibLinux(cInstallLibs,cLibFile)
+							cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/lib","/usr/lib64"])
 						next
 					ok
 					cInstallUbuntu += (" " + aLibrary[:ubuntudep])
@@ -1357,7 +1357,7 @@ func DistributeForLinux cBaseFolder,cFileName,aOptions
 			for aLibrary in aLibsInfo
 				if find(aOptions,"-"+aLibrary[:name])
 					if aLibrary[:fedoradep] != NULL
-						if cRpmRequires != NULL cRpmRequires += ", " ok
+						if len(cRpmRequires) > 0 cRpmRequires += ", " ok
 						cRpmRequires += aLibrary[:fedoradep]
 					ok
 				ok
@@ -1427,12 +1427,15 @@ func DistributeForLinux cBaseFolder,cFileName,aOptions
 		CreateSnap(cOutput, aOptions, cLinuxDir)
 	ok
 
-func InstallLibLinux cInstallLib,cLibFile 
+func InstallLib cInstallLib, cLibFile, aLibPaths
+	cCopyCommands = ""
+	for cPath in aLibPaths
+		cCopyCommands += "sudo cp lib/#{f1} " + cPath + nl + char(9) + char(9)
+	next
 	cCode = "
 		if [ -f lib/#{f1} ];
 		then
-			sudo cp lib/#{f1} /usr/lib
-			sudo cp lib/#{f1} /usr/lib64
+			" + trim(cCopyCommands) + "
 		fi
 	"
 	cCode = SubStr(cCode,"#{f1}",cLibFile)
@@ -1479,7 +1482,7 @@ func DistributeForMacOSX cBaseFolder,cFileName,aOptions
 			PrintSubStep("Copying libring.dylib to target/macosx/dist_using_scripts/lib")
 			OSCopyFile(exefolder()+"/../lib/libring.dylib")
 		ok
-		cInstallLibs = InstallLibMacOSX(cInstallLibs,"libring.dylib")
+		cInstallLibs = InstallLib(cInstallLibs,"libring.dylib",["/usr/local/lib"])
 	# Check All Runtime
 		if find(aOptions,"-allruntime")
 			PrintSubStep("Copying all libraries to target/macosx/dist_using_scripts/lib")
@@ -1489,7 +1492,7 @@ func DistributeForMacOSX cBaseFolder,cFileName,aOptions
 					if islist(aLibrary[:macosxfiles])
 						for cLibFile in aLibrary[:macosxfiles]
 							OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-							cInstallLibs = InstallLibMacOSX(cInstallLibs,cLibFile)
+							cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/local/lib"])
 						next
 					ok
 					cInstallmacosx += (" " + aLibrary[:macosxdep])
@@ -1504,7 +1507,7 @@ func DistributeForMacOSX cBaseFolder,cFileName,aOptions
 					if islist(aLibrary[:macosxfiles])
 						for cLibFile in aLibrary[:macosxfiles]
 							OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-							cInstallLibs = InstallLibMacOSX(cInstallLibs,cLibFile)
+							cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/local/lib"])
 						next
 					ok
 					cInstallmacosx += (" " + aLibrary[:macosxdep])
@@ -1549,28 +1552,6 @@ func DistributeForMacOSX cBaseFolder,cFileName,aOptions
 		CreateDMG(cOutput, aOptions, cMacosxDir)
 	ok
 
-func InstallLibMacOSX cInstallLib,cLibFile
-	cCode = "
-		if [ -f lib/#{f1} ];
-		then
-			sudo cp lib/#{f1} /usr/local/lib
-		fi
-	"
-	cCode = SubStr(cCode,"#{f1}",cLibFile)
-	cCode = RemoveFirstTabs(cCode,2)
-	return cInstallLib + cCode
-
-func InstallLibFreeBSD cInstallLib,cLibFile
-	cCode = "
-		if [ -f lib/#{f1} ];
-		then
-			sudo cp lib/#{f1} /usr/local/lib
-		fi
-	"
-	cCode = SubStr(cCode,"#{f1}",cLibFile)
-	cCode = RemoveFirstTabs(cCode,2)
-	return cInstallLib + cCode
-
 func DistributeForFreeBSD cBaseFolder,cFileName,aOptions
 	cAppName = substr(cFileName," ","_")
 	# Delete Files
@@ -1610,7 +1591,7 @@ func DistributeForFreeBSD cBaseFolder,cFileName,aOptions
 			PrintSubStep("Copying libring.so to target/freebsd/dist_using_scripts/lib")
 			OSCopyFile(exefolder()+"/../lib/libring.so")
 		ok
-		cInstallLibs = InstallLibFreeBSD(cInstallLibs,"libring.so")
+		cInstallLibs = InstallLib(cInstallLibs,"libring.so",["/usr/local/lib"])
 	# Check All Runtime
 		if find(aOptions,"-allruntime")
 			PrintSubStep("Copying all libraries to target/freebsd/dist_using_scripts/lib")
@@ -1621,14 +1602,14 @@ func DistributeForFreeBSD cBaseFolder,cFileName,aOptions
 						for cLibFile in aLibrary[:freebsdfiles]
 							PrintSubStep("Copying file: "+cLibFile)
 							OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-							cInstallLibs = InstallLibFreeBSD(cInstallLibs,cLibFile)
+							cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/local/lib"])
 						next
 					else
 						if islist(aLibrary[:linuxfiles])
 							for cLibFile in aLibrary[:linuxfiles]
 								PrintSubStep("Copying file: "+cLibFile)
 								OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-								cInstallLibs = InstallLibFreeBSD(cInstallLibs,cLibFile)
+								cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/local/lib"])
 							next
 						ok
 					ok
@@ -1649,14 +1630,14 @@ func DistributeForFreeBSD cBaseFolder,cFileName,aOptions
 						for cLibFile in aLibrary[:freebsdfiles]
 							PrintSubStep("Copying file: "+cLibFile)
 							OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-							cInstallLibs = InstallLibFreeBSD(cInstallLibs,cLibFile)
+							cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/local/lib"])
 						next
 					else
 						if islist(aLibrary[:linuxfiles])
 							for cLibFile in aLibrary[:linuxfiles]
 								PrintSubStep("Copying file: "+cLibFile)
 								OSCopyFile(exefolder()+"/../lib/"+cLibFile)
-								cInstallLibs = InstallLibFreeBSD(cInstallLibs,cLibFile)
+								cInstallLibs = InstallLib(cInstallLibs,cLibFile,["/usr/local/lib"])
 							next
 						ok
 					ok
@@ -1713,8 +1694,8 @@ func DistributeForFreeBSD cBaseFolder,cFileName,aOptions
 	cLibDir = cFreeBSDDir+"/dist_using_scripts/lib/"
 	aLibFiles = dir(cLibDir)
 	for item in aLibFiles
-		if not item[1]
-			cLibFile = item[2]
+		if item[2] = 0
+			cLibFile = item[1]
 			if cLibFile = "." or cLibFile = ".." continue ok
 			cFilesString += ',"/usr/local/lib/' + cLibFile + '": "0644"'
 		ok
@@ -1999,7 +1980,7 @@ func CreateAppImage cAppName, aOptions
 		systemSilent("cp " + cLinuxDir + "/" + cScriptsPath + "/bin/" + cAppName + " usr/bin/")
 		systemSilent("chmod +x usr/bin/" + cAppName)
 	else
-		PrintError("Could not find executable at " + cScriptsPath + "/bin/" + cAppName)
+		PrintWarning("Could not find executable at " + cScriptsPath + "/bin/" + cAppName)
 		chdir(cAppDirPath)
 	ok
 	
@@ -2015,7 +1996,7 @@ func CreateAppImage cAppName, aOptions
 		chdir(cAppDirPath)
 		systemSilent("cp -a " + cLinuxDir + "/" + cScriptsPath + "/lib/. usr/lib/")
 	else
-		PrintError("Could not find libraries at " + cScriptsPath + "/lib")
+		PrintWarning("Could not find libraries at " + cScriptsPath + "/lib")
 		chdir(cAppDirPath)
 	ok
 	
@@ -2117,10 +2098,10 @@ func CreateAppBundle cAppName, aOptions
 		# Copy from bin directory to MacOS directory
 		systemSilent("cp dist_using_scripts/bin/" + cAppName + " " + cContentsPath + "/MacOS/" + cAppName + " 2>/dev/null || true")
 		if !fexists(cContentsPath + "/MacOS/" + cAppName)
-			PrintError("Failed to copy executable to App Bundle")
+			PrintWarning("Failed to copy executable to App Bundle")
 		ok
 	else
-		PrintError("Could not find executable at dist_using_scripts/bin/" + cAppName)
+		PrintWarning("Could not find executable at dist_using_scripts/bin/" + cAppName)
 	ok
 	# Copy ring.ringo if it exists (for fallback execution without C compiler)
 	if fexists("dist_using_scripts/bin/ring.ringo")
@@ -2135,7 +2116,7 @@ func CreateAppBundle cAppName, aOptions
 	if direxists("dist_using_scripts/lib")
 		systemSilent("cp -r dist_using_scripts/lib/* " + cContentsPath + "/Frameworks/ 2>/dev/null || true")
 	else
-		PrintError("Could not find libraries at dist_using_scripts/lib")
+		PrintWarning("Could not find libraries at dist_using_scripts/lib")
 	ok
 	
 	# Create Info.plist file
@@ -2278,7 +2259,7 @@ EOF
 	if fexists(cAppName)
 		systemSilent("chmod +x " + cAppName)
 	else
-		PrintError("Could not find " + cAppName + " to set permissions")
+		PrintWarning("Could not find " + cAppName + " to set permissions")
 	ok
 	
 	# Create build script
